@@ -41,13 +41,17 @@ app.get("/despesas/:inicio/:fim/", async (req: Request, res: Response) => {
 });
 
 app.get("/empenho/:exercicio/:numero/", async (req: Request, res: Response) => {
-  const data = await getDespesa({
-    baseURL,
-    exercicio: Number(req.params.exercicio),
-    numero: req.params.numero,
-  });
-
-  res.send(data);
+  try {
+    const data = await getDespesa({
+      baseURL,
+      exercicio: Number(req.params.exercicio),
+      numero: req.params.numero,
+    });
+    res.send(data);
+  } catch (e) {
+    res.status(500);
+    res.render("error", { error: e });
+  }
 });
 
 app.get("/diarias/:inicio/:fim/", async (req: Request, res: Response) => {

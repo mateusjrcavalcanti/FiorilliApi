@@ -83,18 +83,26 @@ app.get("/despesas/:inicio/:fim/", function (req, res) { return __awaiter(void 0
     });
 }); });
 app.get("/empenho/:exercicio/:numero/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var data;
+    var data, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, puppeteer_1.default)({
-                    baseURL: baseURL,
-                    exercicio: Number(req.params.exercicio),
-                    numero: req.params.numero,
-                })];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, (0, puppeteer_1.default)({
+                        baseURL: baseURL,
+                        exercicio: Number(req.params.exercicio),
+                        numero: req.params.numero,
+                    })];
             case 1:
                 data = _a.sent();
                 res.send(data);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                e_1 = _a.sent();
+                res.status(500);
+                res.render("error", { error: e_1 });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); });
