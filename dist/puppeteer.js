@@ -80,7 +80,6 @@ function getDespesa(_a) {
                                 "--disable-gpu",
                                 "--disable-dev-shm-usage",
                                 "--disable-setuid-sandbox",
-                                "--window-size=1920,1080",
                                 "--no-sandbox",
                             ],
                         })];
@@ -114,6 +113,7 @@ function getDespesa(_a) {
                     return [4 /*yield*/, waitResponse(page, "AtualizaTabelaPesquisaGeral")];
                 case 10:
                     _b.sent();
+                    console.log("Ano atualizado");
                     _b.label = 11;
                 case 11: return [4 /*yield*/, page.waitForSelector("input[name=cmbEntidadeContabil]")];
                 case 12:
@@ -134,6 +134,7 @@ function getDespesa(_a) {
                     return [4 /*yield*/, waitResponse(page, "AtualizaTabelaPesquisaGeral")];
                 case 17:
                     teste = _b.sent();
+                    console.log("Entidade atualizada");
                     _b.label = 18;
                 case 18: return [4 /*yield*/, delay(1 * 1000)];
                 case 19:
@@ -164,6 +165,7 @@ function getDespesa(_a) {
                         }))];
                 case 24:
                     _b.sent();
+                    console.log("Dados consolidados removidos");
                     return [4 /*yield*/, waitResponse(page, "DespesasPorEntidade.aspx")];
                 case 25:
                     _b.sent();
@@ -183,6 +185,7 @@ function getDespesa(_a) {
                         })];
                 case 29:
                     _b.sent();
+                    console.log("Numero do empenho inserido");
                     return [4 /*yield*/, waitResponse(page, "DespesasPorEntidade.aspx")];
                 case 30:
                     _b.sent();
@@ -197,9 +200,11 @@ function getDespesa(_a) {
                     return [4 /*yield*/, getDadosEmpenho(page)];
                 case 33:
                     empenho = _b.sent();
+                    console.log("Dados do empenho recuperados");
                     return [4 /*yield*/, browser.close()];
                 case 34:
                     _b.sent();
+                    console.log("Browser fechado");
                     return [2 /*return*/, empenho];
             }
         });

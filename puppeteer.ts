@@ -25,7 +25,6 @@ export default async function getDespesa({
       "--disable-gpu",
       "--disable-dev-shm-usage",
       "--disable-setuid-sandbox",
-      "--window-size=1920,1080",
       "--no-sandbox",
     ],
   });
@@ -47,6 +46,7 @@ export default async function getDespesa({
     );
     await page.evaluate(() => eval(`aspxETextChanged('cmbExercicio')`));
     await waitResponse(page, "AtualizaTabelaPesquisaGeral");
+    console.log("Ano atualizado");
   }
 
   await page.waitForSelector("input[name=cmbEntidadeContabil]");
@@ -60,6 +60,7 @@ export default async function getDespesa({
     );
     await page.evaluate(() => eval(`aspxETextChanged('cmbEntidadeContabil')`));
     const teste = await waitResponse(page, "AtualizaTabelaPesquisaGeral");
+    console.log("Entidade atualizada");
   }
 
   await delay(1 * 1000);
@@ -77,6 +78,7 @@ export default async function getDespesa({
     e.removeAttribute("checked");
     eval(`AtualizarGrid()`);
   });
+  console.log("Dados consolidados removidos");
 
   await waitResponse(page, "DespesasPorEntidade.aspx");
 
@@ -93,6 +95,8 @@ export default async function getDespesa({
   await page.evaluate(() =>
     eval(`aspxEValueChanged('gridDespesas_DXFREditorcol3')`)
   );
+  console.log("Numero do empenho inserido");
+
   await waitResponse(page, "DespesasPorEntidade.aspx");
   await page.evaluate(() =>
     eval(`aspxGVCommandCustomButton('gridDespesas','btnDetalhes',0)`)
@@ -100,8 +104,11 @@ export default async function getDespesa({
 
   await waitResponse(page, "DadosEmpenho.aspx");
   const empenho = await getDadosEmpenho(page);
+  console.log("Dados do empenho recuperados");
 
   await browser.close();
+  console.log("Browser fechado");
+
   return empenho;
 }
 

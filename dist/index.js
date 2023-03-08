@@ -93,7 +93,7 @@ app.get("/empenho/:exercicio/:numero/", function (req, res) { return __awaiter(v
                 })];
             case 1:
                 data = _a.sent();
-                res.json(data);
+                res.send(data);
                 return [2 /*return*/];
         }
     });

@@ -47,7 +47,7 @@ app.get("/empenho/:exercicio/:numero/", async (req: Request, res: Response) => {
     numero: req.params.numero,
   });
 
-  res.json(data);
+  res.send(data);
 });
 
 app.get("/diarias/:inicio/:fim/", async (req: Request, res: Response) => {
