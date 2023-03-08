@@ -8,94 +8,168 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const axios_1 = __importDefault(require("axios"));
-const query_1 = require("./query");
-const app = (0, express_1.default)();
-const port = 8080;
-const baseURL = "http://170.78.48.18:8079/Transparencia/VersaoJson/";
-const empresa = "6";
-const instance = axios_1.default.create({
-    baseURL,
+var express_1 = __importDefault(require("express"));
+var axios_1 = __importDefault(require("axios"));
+var query_1 = require("./query");
+var puppeteer_1 = __importDefault(require("./puppeteer"));
+var app = (0, express_1.default)();
+var port = 8080;
+var baseURL = "http://170.78.48.18:8079/Transparencia/";
+var apiURL = "".concat(baseURL, "VersaoJson/");
+var empresa = "6";
+var instance = axios_1.default.create({
+    baseURL: apiURL,
     timeout: 5000,
     withCredentials: true,
     //headers: { "X-Custom-Header": "foobar" },
 });
-app.get("/", (req, res) => {
+app.get("/", function (req, res) {
     res.send("Express + TypeScript Server");
 });
-app.get("/despesas/:inicio/:fim/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const inicio = new Date(Date.parse(req.params.inicio));
-    const fim = new Date(Date.parse(req.params.fim));
-    const data = yield (0, query_1.execQuery)({
-        instance,
-        url: {
-            categoria: "Despesas",
-            listagem: "DespesasGerais",
-            rest: "&MostrarFornecedor=True&UFParaFiltroCOVID=&MostrarCNPJFornecedor=True&ApenasIDEmpenho=False",
-        },
-        empresa,
-        inicio,
-        fim,
+app.get("/despesas/:inicio/:fim/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var inicio, fim, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                inicio = new Date(Date.parse(req.params.inicio));
+                fim = new Date(Date.parse(req.params.fim));
+                return [4 /*yield*/, (0, query_1.execQuery)({
+                        instance: instance,
+                        url: {
+                            categoria: "Despesas",
+                            listagem: "DespesasGerais",
+                            rest: "&MostrarFornecedor=True&UFParaFiltroCOVID=&MostrarCNPJFornecedor=True&ApenasIDEmpenho=False",
+                        },
+                        empresa: empresa,
+                        inicio: inicio,
+                        fim: fim,
+                    })];
+            case 1:
+                data = _a.sent();
+                res.json(data);
+                return [2 /*return*/];
+        }
     });
-    res.json(data);
-}));
-app.get("/despesas/:numero/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield (0, query_1.DetalhesEmpenhoPorNumeroEmpenho)({
-        instance,
-        numero: req.params.numero,
+}); });
+app.get("/empenho/:exercicio/:numero/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, (0, puppeteer_1.default)({
+                    baseURL: baseURL,
+                    exercicio: Number(req.params.exercicio),
+                    numero: req.params.numero,
+                })];
+            case 1:
+                data = _a.sent();
+                res.json(data);
+                return [2 /*return*/];
+        }
     });
-    res.json(data);
-}));
-app.get("/diarias/:inicio/:fim/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const inicio = new Date(Date.parse(req.params.inicio));
-    const fim = new Date(Date.parse(req.params.fim));
-    const data = yield (0, query_1.execQuery)({
-        instance,
-        url: {
-            categoria: "Despesas",
-            listagem: "Diarias",
-        },
-        empresa,
-        inicio,
-        fim,
+}); });
+app.get("/diarias/:inicio/:fim/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var inicio, fim, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                inicio = new Date(Date.parse(req.params.inicio));
+                fim = new Date(Date.parse(req.params.fim));
+                return [4 /*yield*/, (0, query_1.execQuery)({
+                        instance: instance,
+                        url: {
+                            categoria: "Despesas",
+                            listagem: "Diarias",
+                        },
+                        empresa: empresa,
+                        inicio: inicio,
+                        fim: fim,
+                    })];
+            case 1:
+                data = _a.sent();
+                res.json(data);
+                return [2 /*return*/];
+        }
     });
-    res.json(data);
-}));
-app.get("/receitas/:inicio/:fim/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const inicio = new Date(Date.parse(req.params.inicio));
-    const fim = new Date(Date.parse(req.params.fim));
-    const data = yield (0, query_1.execQuery)({
-        instance,
-        url: {
-            categoria: "Receitas",
-            listagem: "ReceitaExtraOrcamentaria",
-        },
-        empresa,
-        inicio,
-        fim,
+}); });
+app.get("/receitas/:inicio/:fim/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var inicio, fim, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                inicio = new Date(Date.parse(req.params.inicio));
+                fim = new Date(Date.parse(req.params.fim));
+                return [4 /*yield*/, (0, query_1.execQuery)({
+                        instance: instance,
+                        url: {
+                            categoria: "Receitas",
+                            listagem: "ReceitaExtraOrcamentaria",
+                        },
+                        empresa: empresa,
+                        inicio: inicio,
+                        fim: fim,
+                    })];
+            case 1:
+                data = _a.sent();
+                res.json(data);
+                return [2 /*return*/];
+        }
     });
-    res.json(data);
-}));
-app.get("/transferencias/:inicio/:fim/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const inicio = new Date(Date.parse(req.params.inicio));
-    const fim = new Date(Date.parse(req.params.fim));
-    const data = yield (0, query_1.execQuery)({
-        instance,
-        url: {
-            categoria: "Transferencias",
-            listagem: "Transf",
-        },
-        empresa,
-        inicio,
-        fim,
+}); });
+app.get("/transferencias/:inicio/:fim/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var inicio, fim, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                inicio = new Date(Date.parse(req.params.inicio));
+                fim = new Date(Date.parse(req.params.fim));
+                return [4 /*yield*/, (0, query_1.execQuery)({
+                        instance: instance,
+                        url: {
+                            categoria: "Transferencias",
+                            listagem: "Transf",
+                        },
+                        empresa: empresa,
+                        inicio: inicio,
+                        fim: fim,
+                    })];
+            case 1:
+                data = _a.sent();
+                res.json(data);
+                return [2 /*return*/];
+        }
     });
-    res.json(data);
-}));
-app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+}); });
+app.listen(port, function () {
+    console.log("\u26A1\uFE0F[server]: Server is running at http://localhost:".concat(port));
 });

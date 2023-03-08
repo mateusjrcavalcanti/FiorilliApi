@@ -90,14 +90,14 @@ export async function execQuery({
   }
 }
 
-export async function DetalhesEmpenhoPorNumeroEmpenho({
-  instance,
-  numero,
-}: {
-  instance: any;
-  numero: string;
-}) {
-  const reqURL = `/Despesas/?Listagem=DetalhesEmpenhoPorNumeroEmpenho&intNumeroEmpenho=${numero}&strTipoEmpenho=OR&bolMostrarFornecedor=True`;
-  const { data } = await instance.get(reqURL);
-  return data;
-}
+// export async function DetalhesEmpenhoPorNumeroEmpenho({
+//   instance,
+//   numero,
+// }: {
+//   instance: any;
+//   numero: string;
+// }) {
+//   const reqURL = `/Despesas/?Listagem=DetalhesEmpenhoPorNumeroEmpenho&intNumeroEmpenho=${numero}&strTipoEmpenho=OR&bolMostrarFornecedor=True`;
+//   const { data } = await instance.get(reqURL);
+//   return data;
+// }

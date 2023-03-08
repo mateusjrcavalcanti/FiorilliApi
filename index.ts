@@ -1,14 +1,17 @@
 import express, { Express, Request, Response } from "express";
 import axios from "axios";
-import { DetalhesEmpenhoPorNumeroEmpenho, execQuery } from "./query";
+import { execQuery } from "./query";
+import getDespesa from "./puppeteer";
 
 const app: Express = express();
 const port = 8080;
 
-const baseURL = "http://170.78.48.18:8079/Transparencia/VersaoJson/";
+const baseURL = "http://170.78.48.18:8079/Transparencia/";
+const apiURL = `${baseURL}VersaoJson/`;
 const empresa = "6";
+
 const instance = axios.create({
-  baseURL,
+  baseURL: apiURL,
   timeout: 5000,
   withCredentials: true,
   //headers: { "X-Custom-Header": "foobar" },
@@ -37,9 +40,10 @@ app.get("/despesas/:inicio/:fim/", async (req: Request, res: Response) => {
   res.json(data);
 });
 
-app.get("/despesas/:numero/", async (req: Request, res: Response) => {
-  const data = await DetalhesEmpenhoPorNumeroEmpenho({
-    instance,
+app.get("/empenho/:exercicio/:numero/", async (req: Request, res: Response) => {
+  const data = await getDespesa({
+    baseURL,
+    exercicio: Number(req.params.exercicio),
     numero: req.params.numero,
   });
 
