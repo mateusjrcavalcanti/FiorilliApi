@@ -136,7 +136,7 @@ function getDespesa(_a) {
                     teste = _b.sent();
                     console.log("Entidade atualizada");
                     _b.label = 18;
-                case 18: return [4 /*yield*/, delay(1 * 1000)];
+                case 18: return [4 /*yield*/, delay(2 * 1000)];
                 case 19:
                     _b.sent();
                     // Navega para os empenhos

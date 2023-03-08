@@ -31,7 +31,6 @@ export default async function getDespesa({
 
   const context = await browser.createIncognitoBrowserContext();
   const page = await context.newPage();
-  page.setDefaultTimeout(10000);
 
   await page.goto(baseURL);
 
@@ -64,7 +63,7 @@ export default async function getDespesa({
     console.log("Entidade atualizada");
   }
 
-  await delay(1 * 1000);
+  await delay(2 * 1000);
   // Navega para os empenhos
   await page.evaluate(() =>
     eval(`ProcessaDados('lnkDespesasPor_NotaEmpenho')`)
