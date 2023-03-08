@@ -31,6 +31,7 @@ export default async function getDespesa({
 
   const context = await browser.createIncognitoBrowserContext();
   const page = await context.newPage();
+  page.setDefaultTimeout(10000);
 
   await page.goto(baseURL);
 
