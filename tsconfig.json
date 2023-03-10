@@ -4,13 +4,17 @@
     "module": "commonjs",
     "lib": ["es6", "dom"],
     "allowJs": true,
-    "outDir": "dist",
-    "rootDir": ".",
+    "outDir": "build",
+    "rootDir": "src",
     "strict": true,
     "declaration": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "types": ["node"]
-  }
+    "types": ["node"],
+
+    "sourceMap": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
