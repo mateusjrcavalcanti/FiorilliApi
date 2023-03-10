@@ -54,6 +54,9 @@ app.get('/:url/:entidade/despesas/:inicio/:fim/', function (req, res) { return _
                 inicio = new Date(req.params.inicio);
                 fim = new Date(req.params.fim);
                 return [4 /*yield*/, prisma.empenho.findMany({
+                        orderBy: {
+                            Data: 'desc',
+                        },
                         where: {
                             Data: {
                                 gte: inicio,
@@ -117,6 +120,77 @@ app.get('/:url/:entidade/despesas/:inicio/:fim/', function (req, res) { return _
                 _a.label = 2;
             case 2:
                 res.json(data);
+                return [2 /*return*/];
+        }
+    });
+}); });
+app.get('/:url/:entidade/empenho/:numero/:ano/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, prisma.empenho.findMany({
+                    orderBy: {
+                        Data: 'desc',
+                    },
+                    where: {
+                        Numero: { equals: req.params.numero },
+                        Ano: {
+                            entidadeName: {
+                                entidade: {
+                                    EntidadeNames: {
+                                        some: {
+                                            name: "".concat(req.params.entidade),
+                                        },
+                                    },
+                                },
+                            },
+                            ano: { equals: Number(req.params.ano) },
+                        },
+                    },
+                    select: {
+                        Exercicio: true,
+                        Numero: true,
+                        Tipo: true,
+                        CPFCNPJ: true,
+                        Favorecido: true,
+                        Historico: true,
+                        Data: true,
+                        ValorEmpenhado: true,
+                        Processo: true,
+                        NumLicitacao: true,
+                        Inciso: true,
+                        TipoLicitacao: true,
+                        Poder: true,
+                        Orgao: true,
+                        Termo: true,
+                        Contrato: true,
+                        Unidade: true,
+                        IniContrato: true,
+                        FimContrato: true,
+                        NumConvenio: true,
+                        ContratoDetalhado: true,
+                        AnoConvenio: true,
+                        Funcao: true,
+                        SubFuncao: true,
+                        Programa: true,
+                        ProjetoAtividade: true,
+                        FonGrupo: true,
+                        FonCodigo: true,
+                        FonteSTN: true,
+                        Vinculo: true,
+                        CategoriaEconomica: true,
+                        GrupoNatureza: true,
+                        ModalidadeAplicacao: true,
+                        Elemento: true,
+                        Desdobro: true,
+                        Natureza: true,
+                        liquidacoes: true,
+                        pagamentos: true,
+                    },
+                })];
+            case 1:
+                data = _a.sent();
+                res.json(data[0]);
                 return [2 /*return*/];
         }
     });
