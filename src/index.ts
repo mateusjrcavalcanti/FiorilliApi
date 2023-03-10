@@ -10,4 +10,4 @@ app.listen(port, () => {
 
 //update();
 
-cron.schedule('* 10 * * * *', async () => await update());
+cron.schedule('* 30 * * * *', async () => await update());
