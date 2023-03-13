@@ -29,12 +29,12 @@ const update = async () => {
       Number(ano.ano) == anoAtual ||
       (Number(ano.ano) == anoAtual - 1 && mesAtual == 1)
     ) {
-      await receitas({ ano, workers: 4 });
-      await despesasExtras({ ano, workers: 4 });
-      await transferencias({ ano, workers: 4 });
+      await receitas({ ano, workers: 10 });
+      await despesasExtras({ ano, workers: 10 });
+      await transferencias({ ano, workers: 10 });
       await despesasGerais({
         ano,
-        workers: 4,
+        workers: 10,
       });
     }
   }

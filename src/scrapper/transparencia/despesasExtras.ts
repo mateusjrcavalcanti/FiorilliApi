@@ -42,9 +42,9 @@ export async function despesasExtras({ workers, ano }: DespesasGeraisProps) {
   const browser = await puppeteer.launch(args);
   const context = await browser.createIncognitoBrowserContext();
 
-  const empenhos = await getAllExtra(exercicio, entidade, url, context);
-  const retorno = await saveDespesasExtras({ ano, empenhos });
-  console.log(`Inserido no banco: ${retorno.empenhos.length} registros`);
+  const empenhos = await getAllExtra(exercicio, entidade, url, context, ano);
+  // const retorno = await saveDespesasExtras({ ano, empenhos });
+  // console.log(`Inserido no banco: ${retorno.empenhos.length} registros`);
 
   await browser.close();
 }
@@ -54,6 +54,7 @@ export default async function getAllExtra(
   entidade: string,
   url: string,
   context: BrowserContext,
+  ano: AnoWithEntidadeName,
 ) {
   const page = await context.newPage();
   //await page.setCacheEnabled(false);
@@ -67,7 +68,7 @@ export default async function getAllExtra(
   await goPage(page, url, 'lnkDespesasPor_ExtraOrcamentaria');
   await removeDadosConsolidados(page, url, 'lnkDespesasPor_ExtraOrcamentaria');
 
-  let empenhos: any[] = [];
+  //let empenhos: any[] = [];
 
   while (1) {
     await page.waitForSelector('td.CSS_lnkValor_ASPx');
@@ -84,7 +85,10 @@ export default async function getAllExtra(
         timeout: 15000,
       });
       //await delay(10 * 1000);
-      empenhos = empenhos.concat(await getDadosEmpenhoFromList(page));
+      //empenhos = empenhos.concat(await getDadosEmpenhoFromList(page));
+      const empenhos = await getDadosEmpenhoFromList(page);
+      await saveDespesasExtras({ ano, empenhos });
+      console.log(`Inserido no banco: ${empenhos.length} registros`);
       await page?.evaluate(() =>
         eval(`javascript:__doPostBack('btnVoltarDespesas','')`),
       );
@@ -107,7 +111,7 @@ export default async function getAllExtra(
     } else break;
   }
 
-  return empenhos;
+  return;
 }
 
 async function saveDespesasExtras({

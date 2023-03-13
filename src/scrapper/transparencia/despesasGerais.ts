@@ -27,7 +27,7 @@ type AnoWithEntidadeName = Prisma.AnoGetPayload<{
 }>;
 
 interface DespesasGeraisProps {
-  workers?: number;
+  workers: number;
   ano: AnoWithEntidadeName;
 }
 interface GetDespesasProps {
@@ -54,7 +54,7 @@ export async function despesasGerais({ workers, ano }: DespesasGeraisProps) {
   console.log(`Total de despesas: ${total}`);
   await page.close();
 
-  const perPage = Math.trunc(total / (workers || 1));
+  const perPage = total > workers ? Math.trunc(total / (workers || 1)) : total;
   const rest = total % (workers || 1);
 
   const itens: any[] = [];
