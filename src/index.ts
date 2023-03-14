@@ -8,6 +8,6 @@ app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
 
-//update();
+update();
 
-cron.schedule('* 30 * * * *', async () => await update());
+//cron.schedule('* 30 * * * *', async () => await update());

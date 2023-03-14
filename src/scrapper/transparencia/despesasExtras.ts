@@ -111,6 +111,8 @@ export default async function getAllExtra(
     } else break;
   }
 
+  await page.close();
+
   return;
 }
 
